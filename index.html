@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="referrer"
+      content="strict-origin-when-cross-origin">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RNS Navigate | Campus Navigation</title>
+    <link rel="stylesheet" href="style.css">
+
+<!-- Leaflet Map CSS -->
+<!-- MapLibre CSS -->
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/maplibre-gl@6.19.0/dist/maplibre-gl.css"
+>
+
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="#home" class="logo">
+            <span class="logo-icon">R</span>
+            <span>RNS <strong>NAVIGATE</strong></span>
+        </a>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#facilities">Facilities</a>
+            <a href="#campus-map">Campus Map</a>
+        </nav>
+
+        <a href="https://maps.app.goo.gl/E3LUY3QKfUNCpveZA"
+           target="_blank" rel="noopener noreferrer"
+           class="map-button">
+            View Campus ↗
+        </a>
+    </header>
+
+    <main>
+
+        <!-- Hero Section -->
+
+<!-- HERO SECTION WITH BACKGROUND VIDEO -->
+
+<section class="hero hero-video-section" id="home">
+
+
+<!-- Background Video -->
+<div class="hero-video-bg">
+
+    <video
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster=""
+    >
+        <source
+            src="resources/rnsit-1.mp4"
+            type="video/mp4"
+        >
+
+        Your browser does not support HTML5 video.
+
+    </video>
+
+</div>
+
+    </div>
+
+    <!-- Dark overlay for readable text -->
+    <div class="hero-video-overlay"></div>
+
+    <!-- Hero Content -->
+    <div class="hero-content">
+
+        <p class="eyebrow">
+            RNS INSTITUTE OF TECHNOLOGY · BENGALURU
+        </p>
+
+        
+<h1 class="hero-title">
+    FIND YOUR WAY<br>
+    <span>AROUND CAMPUS.</span>
+</h1>
+
+
+        <p class="hero-description">
+            Explore RNSIT with ease. Find departments,
+            classrooms, laboratories and important
+            campus facilities in one place.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#campus-map" class="primary-button">
+                Explore Campus →
+            </a>
+
+            <a href="#facilities" class="secondary-button">
+                View Facilities
+            </a>
+
+        </div>
+
+        <div class="hero-note">
+            <span class="status-dot"></span>
+            YOUR DIGITAL CAMPUS GUIDE
+        </div>
+
+    </div>
+
+</section>
+
+
+        <!-- Facilities Section -->
+        <section class="facilities" id="facilities">
+
+            <div class="section-heading">
+                <p class="eyebrow">EXPLORE YOUR CAMPUS</p>
+                <h2>Everything you need, in one place.</h2>
+                <p>
+                    Quickly explore important locations
+                    across the RNSIT campus.
+                </p>
+            </div>
+
+            <div class="facility-grid">
+
+                <div class="facility-card">
+                    <span class="facility-icon">▦</span>
+                    <h3>Academic Blocks</h3>
+                    <p>Find academic buildings and classrooms.</p>
+                </div>
+
+                <div class="facility-card">
+                    <span class="facility-icon">⌘</span>
+                    <h3>Departments & Labs</h3>
+                    <p>Locate departments and laboratories.</p>
+                </div>
+
+                <div class="facility-card">
+                    <span class="facility-icon">▤</span>
+                    <h3>Library</h3>
+                    <p>Find library and learning facilities.</p>
+                </div>
+
+                <div class="facility-card">
+                    <span class="facility-icon">⌂</span>
+                    <h3>Student Facilities</h3>
+                    <p>Explore hostels, canteen and other facilities.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Campus Map Section -->
+        
+<!-- INTERACTIVE CAMPUS MAP -->
+
+<section class="map-section" id="campus-map">
+
+    <div class="map-heading">
+
+        <div class="section-heading">
+
+            <p class="eyebrow">
+                CAMPUS NAVIGATION
+            </p>
+
+            <h2>
+                Explore RNSIT on the map.
+            </h2>
+
+            <p>
+                Discover the campus and explore its surroundings.
+                Your campus navigation starts here.
+            </p>
+
+        </div>
+
+        <a
+            href="https://maps.app.goo.gl/E3LUY3QKfUNCpveZA"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="map-external-link"
+        >
+            Open Google Maps ↗
+        </a>
+
+    </div>
+
+    <!-- ACTUAL INTERACTIVE MAP -->
+
+<!-- CAMPUS FACILITY SEARCH -->
+
+<!-- CAMPUS ROUTE PLANNER -->
+
+<div class="route-planner">
+
+    <div class="route-heading">
+        <p class="eyebrow">CAMPUS DIRECTIONS</p>
+        <h3>Where do you want to go?</h3>
+        <p>Select your starting point and destination.</p>
+    </div>
+
+    <div class="route-fields">
+
+        <div class="route-input-group">
+            <label for="routeFrom">
+                <span class="route-dot start-dot"></span>
+                Starting Point
+            </label>
+
+            <select id="routeFrom">
+                <option value="">Choose starting point</option>
+            </select>
+        </div>
+
+        <button
+            type="button"
+            id="swapRoute"
+            class="swap-route"
+            aria-label="Swap starting point and destination"
+            title="Swap locations">
+            ⇅
+        </button>
+
+        <div class="route-input-group">
+            <label for="routeTo">
+                <span class="route-dot end-dot"></span>
+                Destination
+            </label>
+
+            <select id="routeTo">
+                <option value="">Choose destination</option>
+            </select>
+        </div>
+
+        <button
+            type="button"
+            id="findRoute"
+            class="find-route-button"
+            disabled>
+            Find Route →
+        </button>
+
+    </div>
+
+    <p
+        id="routeStatus"
+        class="route-status"
+        aria-live="polite">
+        Select two locations to plan your journey.
+    </p>
+
+    <p class="route-disclaimer">
+    Walking directions generated using mapped pedestrian data.
+    Verify pathway accessibility on campus.
+</p>
+
+</div>
+
+<!-- TURN BY TURN DIRECTIONS PANEL -->
+
+<section id="directionsPanel"
+         class="directions-panel"
+         hidden>
+
+    <div class="directions-header">
+
+        <div>
+            <p class="eyebrow">YOUR JOURNEY</p>
+            <h3>Route instructions</h3>
+            <p id="directionsFromTo">
+                Your selected journey
+            </p>
+        </div>
+
+        <span class="directions-badge">
+            WALKING ROUTE
+        </span>
+
+    </div>
+
+    <!-- ROUTE SUMMARY -->
+
+    <div class="directions-summary">
+
+        <div class="direction-stat">
+            <span>Distance</span>
+            <strong id="directionsDistance">--</strong>
+        </div>
+
+        <div class="direction-stat">
+            <span>Estimated time</span>
+            <strong id="directionsDuration">--</strong>
+        </div>
+
+        <div class="direction-stat">
+            <span>Route steps</span>
+            <strong id="directionsStepCount">--</strong>
+        </div>
+
+    </div>
+
+    <!-- INSTRUCTIONS -->
+
+    <div class="directions-body">
+
+        <h4>Follow these directions</h4>
+
+        <div id="directionsList"
+             class="directions-list">
+
+        </div>
+
+    </div>
+
+    <p class="directions-note">
+        Directions are generated from mapped pedestrian data.
+        Verify campus access and pathway availability on site.
+    </p>
+
+</section>
+
+<div class="map-search-wrap">
+
+    <div class="map-search-input-wrapper">
+
+        <span class="search-icon">⌕</span>
+
+        <input
+            type="search"
+            id="facilitySearch"
+            placeholder="Search CSE, ECE, Library, Hostel..."
+            autocomplete="off"
+        >
+
+    </div>
+
+    <div
+        id="facilityResults"
+        class="map-search-results"
+        hidden
+    ></div>
+
+    <p
+        id="searchFeedback"
+        class="search-feedback"
+        aria-live="polite">
+    </p>
+
+</div>
+
+    <div class="map-shell">
+
+        <div
+    id="campusMap"
+    aria-label="Interactive map of RNS Institute of Technology"
+></div>
+
+<div id="mapStatus" class="map-status">
+    Loading RNSIT campus map...
+</div>
+
+    </div>
+
+    <p class="map-instruction">
+        Drag to explore · Use + and − to zoom · Select a marker for information
+    </p>
+
+</section>
+
+
+    </main>
+
+    <footer>
+        <p>RNS NAVIGATE · Campus Navigation System</p>
+        <p>RNS Institute of Technology, Bengaluru</p>
+    </footer>
+
+<!-- Leaflet JavaScript -->
+<!-- Interactive map -->
+<script type="module" src="js/map.js"></script>
+
+</body>
+</html>
