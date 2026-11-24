@@ -5,181 +5,29 @@
 ========================================== */
 
 import * as maplibregl from
-"https://unpkg.com/maplibre-gl@6.19.0/dist/maplibre-gl.mjs";
+    "https://unpkg.com/maplibre-gl@6.19.0/dist/maplibre-gl.mjs";
 
 // ==========================================
 // 1. CAMPUS FACILITY DATA
 // ==========================================
 
-const facilities = [
+const API_BASE = "http://127.0.0.1:5000/api";
 
-    // MAIN CAMPUS
-    {
-        id: "campus",
-        name: "RNS Institute of Technology",
-        category: "Campus",
-        description: "Main RNSIT campus",
-        coordinates: [77.5184739, 12.9012543]
-    },
+let facilities = [];
 
-    // ENGINEERING DEPARTMENTS
-    {
-        id: "cse",
-        name: "CSE Department",
-        category: "Department",
-        description: "Computer Science and Engineering",
-        coordinates: [77.51792319271713, 12.901982967309449]
-    },
-    {
-        id: "ece",
-        name: "ECE Department",
-        category: "Department",
-        description: "Electronics and Communication Engineering",
-        coordinates: [77.5178667791052, 12.902484345116491]
-    },
-    {
-        id: "eee",
-        name: "EEE Department",
-        category: "Department",
-        description: "Electrical and Electronics Engineering",
-        coordinates: [77.5190984079474, 12.901652755703868]
-    },
-    {
-        id: "mechanical",
-        name: "Mechanical Department",
-        category: "Department",
-        description: "Mechanical Engineering",
-        coordinates: [77.5190984079474, 12.901652755703868]
-    },
-    {
-        id: "data-science",
-        name: "Data Science Department",
-        category: "Department",
-        description: "Computer Science - Data Science",
-        coordinates: [77.5190984079474, 12.901652755703868]
-    },
-    {
-        id: "mba",
-        name: "MBA Department",
-        category: "Department",
-        description: "Management studies",
-        coordinates: [77.51878467714974, 12.900997144437993]
-    },
-    {
-        id: "civil",
-        name: "Civil Block",
-        category: "Department",
-        description: "Civil Engineering Block",
-        coordinates: [77.51755806140841, 12.901736835096278]
-    },
-    {
-        id: "cyber-security",
-        name: "Cyber Security Block",
-        category: "Department",
-        description: "Cyber Security Department",
-        coordinates: [77.5173683689213, 12.901460473664356]
-    },
+async function loadFacilities() {
+    const response = await fetch(`${API_BASE}/locations`);
 
-    // HOSTELS
-    {
-        id: "boys-hostel",
-        name: "Boys Hostel",
-        category: "Hostel",
-        description: "Boys residential facility",
-        coordinates: [77.51711641887431, 12.901802134635767]
-    },
-    {
-        id: "girls-hostel",
-        name: "Girls Hostel",
-        category: "Hostel",
-        description: "Girls residential facility",
-        coordinates: [77.51740719008096, 12.902432266502439]
-    },
-
-    // CAMPUS FACILITIES
-    {
-        id: "library",
-        name: "Library",
-        category: "Facility",
-        description: "College library",
-        coordinates: [77.51790845199041, 12.900662877475174]
-    },
-    {
-        id: "temple",
-        name: "RNSIT Temple",
-        category: "Facility",
-        description: "Campus temple",
-        coordinates: [77.51844279400655, 12.8999507538357]
-    },
-    {
-        id: "gallery",
-        name: "Gallery",
-        category: "Facility",
-        description: "Campus gallery",
-        coordinates: [77.51857059799245, 12.902113021245858]
-    },
-    {
-        id: "admin",
-        name: "Admin Block",
-        category: "Administration",
-        description: "Administrative office",
-        coordinates: [77.51860144538693, 12.902290153486746]
-    },
-    {
-        id: "canteen",
-        name: "Canteen",
-        category: "Food",
-        description: "Campus canteen",
-        coordinates: [77.51808509417451, 12.90074238530015]
-    },
-
-    // ENTRANCE AND PARKING
-    {
-        id: "main-entrance",
-        name: "Main Entrance",
-        category: "Entrance",
-        description: "Main campus entrance",
-        coordinates: [77.5192045161297, 12.902553942804538]
-    },
-    {
-        id: "parking",
-        name: "Parking Area",
-        category: "Parking",
-        description: "Campus parking area",
-        coordinates: [77.51812462770418, 12.89979190352434]
-    },
-
-    // PLAYGROUND AND OTHER INSTITUTIONS
-    {
-        id: "playground",
-        name: "RNSIT Playground",
-        category: "Sports",
-        description: "Campus playground",
-        coordinates: [77.5160160830609, 12.899452590266124]
-    },
-    {
-        id: "rns-school",
-        name: "RNS School",
-        category: "Educational Institution",
-        description: "RNS School",
-        coordinates: [77.51683865936256, 12.900671522354397]
-    },
-    {
-        id: "pu-college",
-        name: "RNS PU College",
-        category: "Educational Institution",
-        description: "RNS Pre-University College",
-        coordinates: [77.51886414500929, 12.9007217446207]
-    },
-    {
-        id: "first-grade-college",
-        name: "RNS First Grade College",
-        category: "Educational Institution",
-        description: "RNS First Grade College",
-        coordinates: [77.51752338643695, 12.901092654011052]
+    if (!response.ok) {
+        throw new Error("Failed to load campus locations");
     }
 
-];
+    const data = await response.json();
+
+    facilities = data.locations;
+
+    console.log("Loaded locations from Flask:", facilities.length);
+}
 
 
 // ==========================================
@@ -303,39 +151,39 @@ function initializeMap() {
 
     campusMap.on("load", function () {
 
-    mapIsReady = true;
+        mapIsReady = true;
 
-    hideStatus();
+        hideStatus();
 
-    addAllMarkers();
+        addAllMarkers();
 
-    populateRouteOptions();
+        populateRouteOptions();
 
-    findRouteButton.disabled = false;
+        findRouteButton.disabled = false;
 
-    console.log("RNSIT map loaded successfully.");
+        console.log("RNSIT map loaded successfully.");
 
-});
+    });
 
-campusMap.on("error", function (event) {
+    campusMap.on("error", function (event) {
 
-    console.error(
-        "[RNSIT MAP ERROR]",
-        event.error || event
-    );
-
-    // Only show the blocking error when
-    // the map has not initialized yet.
-
-    if (!mapIsReady) {
-
-        showStatus(
-            "Unable to initialize the map. Check the browser console."
+        console.error(
+            "[RNSIT MAP ERROR]",
+            event.error || event
         );
 
-    }
+        // Only show the blocking error when
+        // the map has not initialized yet.
 
-});
+        if (!mapIsReady) {
+
+            showStatus(
+                "Unable to initialize the map. Check the browser console."
+            );
+
+        }
+
+    });
 
     window.addEventListener("resize", () => {
         campusMap.resize();
@@ -347,7 +195,7 @@ campusMap.on("error", function (event) {
 // ==========================================
 // 5. ADD FACILITY MARKERS
 // ==========================================
-   
+
 function addAllMarkers() {
 
     const locationGroups = new Map();
@@ -411,9 +259,9 @@ function addAllMarkers() {
         const marker = new maplibregl.Marker({
             color: "#91AFC5"
         })
-        .setLngLat(group[0].coordinates)
-        .setPopup(popup)
-        .addTo(campusMap);
+            .setLngLat(group[0].coordinates)
+            .setPopup(popup)
+            .addTo(campusMap);
 
         // Allow search to find the marker for each facility
         group.forEach(facility => {
@@ -440,71 +288,59 @@ function addAllMarkers() {
 // 6. FACILITY SEARCH
 // ==========================================
 
-function displaySearchResults(query) {
+
+async function displaySearchResults(query) {
 
     resultsContainer.innerHTML = "";
-
     searchFeedback.textContent = "";
 
     if (!query.trim()) {
-
         resultsContainer.hidden = true;
         return;
-
     }
 
-    const filteredFacilities = facilities.filter(facility => {
-
-        return (
-
-            facility.name.toLowerCase().includes(query.toLowerCase()) ||
-
-            facility.category.toLowerCase().includes(query.toLowerCase())
-
+    try {
+        const response = await fetch(
+            `${API_BASE}/search?q=${encodeURIComponent(query)}`
         );
 
-    });
+        const data = await response.json();
 
-    resultsContainer.hidden = false;
+        resultsContainer.hidden = false;
 
-    if (filteredFacilities.length === 0) {
+        if (!data.results || data.results.length === 0) {
+            resultsContainer.innerHTML =
+                "<p class='no-results'>No facilities found.</p>";
+            return;
+        }
 
-        resultsContainer.innerHTML =
-            "<p class='no-results'>No facilities found.</p>";
+        data.results.forEach(facility => {
 
-        return;
+            const result = document.createElement("button");
+            result.type = "button";
+            result.className = "facility-result";
 
-    }
+            const name = document.createElement("strong");
+            name.textContent = facility.name;
 
-    filteredFacilities.forEach(facility => {
+            const category = document.createElement("span");
+            category.textContent = facility.category;
 
-        const result = document.createElement("button");
+            result.append(name, category);
 
-        result.type = "button";
+            result.addEventListener("click", () => {
+                selectFacility(facility);
+            });
 
-        result.className = "facility-result";
-
-        const name = document.createElement("strong");
-        name.textContent = facility.name;
-
-        const category = document.createElement("span");
-        category.textContent = facility.coordinates
-            ? facility.category
-            : facility.category + " · Pin pending";
-
-        result.append(name, category);
-
-        result.addEventListener("click", () => {
-
-            selectFacility(facility);
-
+            resultsContainer.appendChild(result);
         });
 
-        resultsContainer.appendChild(result);
-
-    });
-
+    } catch (error) {
+        console.error("Search error:", error);
+        searchFeedback.textContent = "Unable to search locations.";
+    }
 }
+
 
 
 // ==========================================
@@ -888,6 +724,7 @@ function renderRouteDirections(
 }
 
 
+
 async function showCampusRoute() {
 
     const start = facilities.find(
@@ -898,158 +735,118 @@ async function showCampusRoute() {
         f => f.id === routeTo.value
     );
 
+    // Validate selections
     if (!start || !destination) {
-
         routeStatus.textContent =
             "Please select both locations.";
-
         return;
-
     }
 
     if (!start.coordinates || !destination.coordinates) {
-
         routeStatus.textContent =
             "Location coordinates are missing.";
-
         return;
+    }
 
+    if (start.id === destination.id) {
+        routeStatus.textContent =
+            "Starting point and destination must be different.";
+        return;
     }
 
     if (
         start.coordinates[0] === destination.coordinates[0] &&
         start.coordinates[1] === destination.coordinates[1]
     ) {
-
         routeStatus.textContent =
             "Both locations have the same coordinates.";
-
         return;
-
     }
 
     findRouteButton.disabled = true;
-    // Hide previous instructions while finding a new route
+    directionsPanel.hidden = true;
 
-directionsPanel.hidden = true;
     routeStatus.textContent =
         "Calculating walking directions...";
 
     try {
 
-        // VALHALLA ROUTE REQUEST
-
-        const requestData = {
-
-            locations: [
-
-                {
-                    lat: start.coordinates[1],
-                    lon: start.coordinates[0],
-                    type: "break",
-                    name: start.name
-                },
-
-                {
-                    lat: destination.coordinates[1],
-                    lon: destination.coordinates[0],
-                    type: "break",
-                    name: destination.name
-                }
-
-            ],
-
-            costing: "pedestrian",
-
-            units: "km",
-
-            format: "json",
-
-            directions_type: "instructions",
-
-            language: "en"
-
-        };
+        // =================================
+        // 1. REQUEST ROUTE FROM FLASK
+        // =================================
 
         const response = await fetch(
-            "https://valhalla1.openstreetmap.de/route",
+            `${API_BASE}/routes`,
             {
-
                 method: "POST",
 
                 headers: {
                     "Content-Type": "application/json"
                 },
 
-                body: JSON.stringify(requestData)
-
+                body: JSON.stringify({
+                    from_id: start.id,
+                    to_id: destination.id
+                })
             }
         );
 
-        if (!response.ok) {
-
-            throw new Error(
-                "Routing service error: " + response.status
-            );
-
-        }
-
         const data = await response.json();
 
-        // NATIVE VALHALLA RESPONSE
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Route calculation failed."
+            );
+        }
+
+        // =================================
+        // 2. EXTRACT VALHALLA RESPONSE
+        // =================================
 
         const trip = data.trip;
 
-        const leg = trip?.legs?.[0];
-
-        if (!leg || !leg.shape) {
-
+        if (!trip || !trip.legs || !trip.legs.length) {
             throw new Error(
                 data.status_message ||
-                "No walking route was found."
+                "No walking route found."
             );
-
         }
 
-        // Decode actual route geometry
+        const leg = trip.legs[0];
+
+        if (!leg.shape) {
+            throw new Error("Route geometry is missing.");
+        }
+
+        // =================================
+        // 3. DECODE POLYLINE
+        // =================================
 
         const routeCoordinates =
             decodePolyline6(leg.shape);
 
         if (routeCoordinates.length < 2) {
-
-            throw new Error(
-                "The walking route has invalid geometry."
-            );
-
+            throw new Error("Invalid route geometry.");
         }
 
-        console.log(
-            "Walking route coordinates:",
-            routeCoordinates
-        );
-
-        // GEOJSON ROUTE
+        // =================================
+        // 4. CREATE GEOJSON
+        // =================================
 
         const routeGeoJSON = {
-
             type: "Feature",
-
             properties: {
                 name: "RNSIT Walking Route"
             },
-
             geometry: {
-
                 type: "LineString",
-
                 coordinates: routeCoordinates
-
             }
-
         };
 
-        // REMOVE OLD ROUTE
+        // =================================
+        // 5. REMOVE PREVIOUS ROUTE
+        // =================================
 
         if (campusMap.getLayer("campus-route-line")) {
             campusMap.removeLayer("campus-route-line");
@@ -1063,77 +860,54 @@ directionsPanel.hidden = true;
             campusMap.removeSource("campus-route");
         }
 
-        // ADD NEW ROUTE SOURCE
+        // =================================
+        // 6. ADD ROUTE SOURCE
+        // =================================
 
         campusMap.addSource("campus-route", {
-
             type: "geojson",
-
             data: routeGeoJSON
-
         });
 
-        // OUTER ROUTE LINE
-
+        // Outer route line
         campusMap.addLayer({
-
             id: "campus-route-casing",
-
             type: "line",
-
             source: "campus-route",
 
             layout: {
-
                 "line-cap": "round",
-
                 "line-join": "round"
-
             },
 
             paint: {
-
                 "line-color": "#FFFFFF",
-
                 "line-width": 10,
-
                 "line-opacity": 0.85
-
             }
-
         });
 
-        // MAIN BLUE ROUTE LINE
-
+        // Main route line
         campusMap.addLayer({
-
             id: "campus-route-line",
-
             type: "line",
-
             source: "campus-route",
 
             layout: {
-
                 "line-cap": "round",
-
                 "line-join": "round"
-
             },
 
             paint: {
-
                 "line-color": "#49B5F5",
-
                 "line-width": 6,
-
                 "line-opacity": 1
-
             }
-
         });
 
-        // START MARKER
+        // =================================
+        // 7. START MARKER
+        // =================================
 
         if (routeStartMarker) {
             routeStartMarker.remove();
@@ -1142,10 +916,12 @@ directionsPanel.hidden = true;
         routeStartMarker = new maplibregl.Marker({
             color: "#39B68A"
         })
-        .setLngLat(start.coordinates)
-        .addTo(campusMap);
+            .setLngLat(start.coordinates)
+            .addTo(campusMap);
 
-        // DESTINATION MARKER
+        // =================================
+        // 8. DESTINATION MARKER
+        // =================================
 
         if (routeEndMarker) {
             routeEndMarker.remove();
@@ -1154,10 +930,12 @@ directionsPanel.hidden = true;
         routeEndMarker = new maplibregl.Marker({
             color: "#91AFC5"
         })
-        .setLngLat(destination.coordinates)
-        .addTo(campusMap);
+            .setLngLat(destination.coordinates)
+            .addTo(campusMap);
 
-        // FIT MAP TO ROUTE
+        // =================================
+        // 9. FIT MAP TO ROUTE
+        // =================================
 
         const bounds = new maplibregl.LngLatBounds();
 
@@ -1166,53 +944,42 @@ directionsPanel.hidden = true;
         });
 
         campusMap.fitBounds(bounds, {
-
             padding: 100,
-
             maxZoom: 19,
-
             duration: 1200
-
         });
 
-        // CORRECT DISTANCE AND TIME
+        // =================================
+        // 10. ROUTE DISTANCE AND DURATION
+        // =================================
 
-        const distanceKm = trip.summary.length;
+        const summary = trip.summary || leg.summary || {};
 
-        const durationSeconds = trip.summary.time;
+        const distanceKm = summary.length;
+        const durationSeconds = summary.time;
 
-        const distanceText = distanceKm < 1
-            ? Math.round(distanceKm * 1000) + " metres"
-            : distanceKm.toFixed(2) + " km";
+        const distanceText = formatRouteDistance(distanceKm);
 
-        const walkingMinutes = Math.max(
-            1,
-            Math.round(durationSeconds / 60)
-        );
+        const durationText = formatRouteDuration(durationSeconds);
 
         routeStatus.textContent =
-            "Walking route: " +
-            start.name +
-            " → " +
-            destination.name +
-            " | " +
-            distanceText +
-            " | Approximately " +
-            walkingMinutes +
-            " minutes.";
-        // Display turn-by-turn instructions
+            `Walking route: ${start.name} → ${destination.name} | ` +
+            `${distanceText} | Approximately ${durationText}.`;
 
-renderRouteDirections(
-    leg,
-    trip,
-    start,
-    destination
-);
+        // =================================
+        // 11. TURN-BY-TURN DIRECTIONS
+        // =================================
+
+        renderRouteDirections(
+            leg,
+            trip,
+            start,
+            destination
+        );
+
         console.log("Route successfully drawn.");
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error("Route error:", error);
 
@@ -1220,17 +987,12 @@ renderRouteDirections(
             "Unable to display walking route: " +
             error.message;
 
-    }
-
-    finally {
+    } finally {
 
         findRouteButton.disabled = false;
 
     }
-
 }
-
-
 
 
 // ==========================================
@@ -1256,4 +1018,21 @@ swapRouteButton.addEventListener("click", () => {
 });
 
 
-initializeMap();
+async function startApplication() {
+
+    try {
+        showStatus("Loading campus locations...");
+
+        await loadFacilities();
+
+        initializeMap();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showStatus("Unable to connect to campus backend.");
+    }
+}
+
+startApplication();
